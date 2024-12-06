@@ -15,14 +15,16 @@ stages:
       - template: ../../Azure DevOps/stages/function_app_build.yml
       # Pass parameters here
 
-  - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/develop') }} :
-    - template: ../../Azure DevOps/stages/function_app_deploy.yml      
-      parameters:
-        appName: func-azdotest-dev-001
-  
-  - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/develop') }} :
-    - template: ../../Azure DevOps/stages/function_app_deploy.yml
-      parameters:
-        appName: func-azdotest-prod-001
+  - stage: Deploy
+    displayName: Deploy Function App
+    jobs:
+      - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/develop') }} :
+        - template: ../../Azure DevOps/stages/function_app_deploy.yml      
+          parameters:
+            appName: func-azdotest-dev-001
+      - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/develop') }} :
+        - template: ../../Azure DevOps/stages/function_app_deploy.yml
+          parameters:
+            appName: func-azdotest-prod-001
 
 
