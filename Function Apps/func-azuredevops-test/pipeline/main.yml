@@ -29,6 +29,7 @@ stages:
         displayName: "Set Python version to ${{ parameters.pythonVersion }}"
         inputs:
           versionSpec: '${{ parameters.pythonVersion }}'
+        enabled: false
 
       - bash: |
           if [ -f extensions.csproj ]
