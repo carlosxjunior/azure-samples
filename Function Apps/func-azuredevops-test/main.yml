@@ -10,13 +10,10 @@ pool:
   name: ubuntu-agent-pool
 
 stages:
-  - stage: Build
-    displayName: Build Function App
-    jobs:
-    - template: ../../Azure DevOps/stages/function_app_build.yml
-      parameters:
-        appName: 'func-azuredevops-test'
-      # Other parameters could be passed here, but the default values are what is needed already
+  - template: ../../Azure DevOps/stages/function_app_build.yml
+    parameters:
+      appName: 'func-azuredevops-test'
+    # Other parameters could be passed here, but the default values are what is needed already
 
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/develop') }}
     - template: ../../Azure DevOps/stages/function_app_deploy.yml      
