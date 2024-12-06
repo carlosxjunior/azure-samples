@@ -30,6 +30,10 @@ stages:
         inputs:
           versionSpec: '${{ parameters.pythonVersion }}'
         enabled: false # disable this task as the agent already has python installed
+        
+      - bash: |
+          python3 -m ensurepip --upgrade
+        displayName: "Install or upgrade pip"
 
       - bash: |
           if [ -f extensions.csproj ]
