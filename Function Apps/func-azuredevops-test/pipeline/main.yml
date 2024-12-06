@@ -15,7 +15,7 @@ parameters:
   default: 'func-azuredevops-test'
 - name: pythonVersion
   type: string
-  default: '3.x'
+  default: '3.11'
 
 stages:
 - stage: build
