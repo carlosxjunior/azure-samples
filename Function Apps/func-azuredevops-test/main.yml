@@ -3,28 +3,26 @@ trigger:
     include:
     - develop
     - main
-    exclude:
-    - feature/*
 
 pool:
   name: ubuntu-agent-pool
 
 stages:
 
-  - stage: BuildAndDeployDev
-    displayName: Build and deploy Function App to development environment
+  - stage: Build
+    displayName: Build Function App
     jobs:
       - template: ../../Azure DevOps/stages/function_app_build.yml
-        parameters:
-          appName: 'func-azuredevops-test'
-    # Other parameters could be passed here, but the default values are what is needed already
+      # Pass parameters here
 
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/develop') }} :
     - template: ../../Azure DevOps/stages/function_app_deploy.yml      
-      # Pass parameters here
+      parameters:
+        appName: func-azdotest-dev-001
   
   - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/develop') }} :
     - template: ../../Azure DevOps/stages/function_app_deploy.yml
-      # Pass parameters here
+      parameters:
+        appName: func-azdotest-prod-001
 
 

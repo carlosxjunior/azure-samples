@@ -1,7 +1,7 @@
 parameters:
 - name: azureSubscription
   type: string
-  default: ''
+  default: 'AzureSubscriptionServiceConnection'
 - name: appName
   type: string
   default: 'func-azuredevops-test'
