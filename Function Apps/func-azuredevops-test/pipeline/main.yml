@@ -7,7 +7,7 @@ trigger:
     - feature/*
 
 pool:
-  name: local
+  name: ubuntu-agent-pool
 
 parameters:
 - name: appName
