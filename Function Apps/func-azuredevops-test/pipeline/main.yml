@@ -15,7 +15,7 @@ parameters:
   default: 'func-azuredevops-test'
 - name: pythonVersion
   type: string
-  default: '3.x'
+  default: '3.11'
 
 stages:
 - stage: build
@@ -29,7 +29,6 @@ stages:
         displayName: "Set Python version to ${{ parameters.pythonVersion }}"
         inputs:
           versionSpec: '${{ parameters.pythonVersion }}'
-          architecture: 'x64'
 
       - bash: |
           if [ -f extensions.csproj ]
