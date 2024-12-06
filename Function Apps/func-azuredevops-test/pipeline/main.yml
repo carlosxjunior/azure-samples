@@ -7,7 +7,7 @@ trigger:
     - feature/*
 
 pool:
-  vmImage: ubuntu-latest
+  name: ubuntu-agent-pool
 
 parameters:
 - name: appName
