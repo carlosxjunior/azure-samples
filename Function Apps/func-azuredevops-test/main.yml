@@ -3,8 +3,6 @@ trigger:
     include:
     - develop
     - main
-    exclude:
-    - feature/*
 
 pool:
   name: ubuntu-agent-pool
