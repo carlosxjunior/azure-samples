@@ -10,16 +10,20 @@ pool:
   name: ubuntu-agent-pool
 
 stages:
-  - template: ../../Azure DevOps/stages/function_app_build.yml
-    parameters:
-      appName: 'func-azuredevops-test'
+
+  - stage: BuildAndDeployDev
+    displayName: Build and deploy Function App to development environment
+    jobs:
+      - template: ../../cicd-pipeline/az_func_build.yml
+        parameters:
+          appName: 'func-azuredevops-test'
     # Other parameters could be passed here, but the default values are what is needed already
 
-  - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/develop') }}
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/develop') }} :
     - template: ../../Azure DevOps/stages/function_app_deploy.yml      
       # Pass parameters here
   
-  - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/develop') }}
+  - ${{ if eq(variables['Build.SourceBranch'], 'refs/head/develop') }} :
     - template: ../../Azure DevOps/stages/function_app_deploy.yml
       # Pass parameters here
 
