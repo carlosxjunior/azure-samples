@@ -9,6 +9,10 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+parameters:
+  appName: "func-azuredevops-test"
+  pythonVersion: "3.x"
+
 stages:
 - stage: build
   displayName: Build Function App
