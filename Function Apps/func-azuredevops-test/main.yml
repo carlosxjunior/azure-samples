@@ -50,6 +50,8 @@ stages:
               dotnet build extensions.csproj --output ./bin
           fi
           pip install --target="./.python_packages/lib/site-packages" -r ./requirements.txt
+        displayName: "Install dependencies"
+        workingDirectory: "$(Build.SourcesDirectory)/Function Apps/func-azuredevops-test"
 
       - task: ArchiveFiles@2
         displayName: "Archive files (zip function files)"
