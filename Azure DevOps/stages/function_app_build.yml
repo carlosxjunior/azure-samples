@@ -1,14 +1,11 @@
 parameters:
-- name: appName
-  type: string
-  default: 'func-azuredevops-test'
 - name: pythonVersion
   type: string
   default: '3.x'
 
 jobs:
   - job: build
-    displayName: functionApp_${{ parameters.appName }}_build
+    displayName: functionApp_build
     steps:
 
       - task: UsePythonVersion@0
