@@ -1,0 +1,33 @@
+parameters:
+- name: azureSubscription
+  type: string
+  default: ''
+- name: appName
+  type: string
+  default: 'func-azuredevops-test'
+- name: appType
+  type: string
+  default: 'functionAppLinux'
+- name: downloadVersion
+  type: string
+  default: 'current'
+- name: artifactName
+  type: string
+  default: 'function-app-artifact'
+
+jobs:
+  - job: deploy
+    displayName: functionApp_${{ parameters.appName }}_deploy
+    steps:
+
+    - download: ${{ parameters.downloadVersion }}
+      artifact: ${{ parameters.artifactName }}
+        
+    - task: AzureFunctionApp@2
+      displayName: Deploy Function App v2
+      inputs:
+        connectedServiceNameARM: ${{ parameters.azureSubscription }}
+        appType: ${{ parameters.appType }}
+        appName: ${{ parameters.appName }}
+        package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+        deploymentMethod: 'auto'
