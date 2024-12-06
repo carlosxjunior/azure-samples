@@ -14,7 +14,7 @@ stages:
   - stage: BuildAndDeployDev
     displayName: Build and deploy Function App to development environment
     jobs:
-      - template: ../../cicd-pipeline/az_func_build.yml
+      - template: ../../Azure DevOps/stages/function_app_build.yml
         parameters:
           appName: 'func-azuredevops-test'
     # Other parameters could be passed here, but the default values are what is needed already
