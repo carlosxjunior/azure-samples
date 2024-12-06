@@ -36,6 +36,13 @@ stages:
           sudo apt-get install -y python3-pip
         displayName: "Install pip using package manager"
 
+      - bash: |
+          echo "Working directory: $(pwd)"
+          echo "Contents of current directory:"
+          ls -l
+          echo "Contents of parent directory:"
+          ls -l ../
+        displayName: "Debug Repository Checkout"
 
       - bash: |
           if [ -f extensions.csproj ]
