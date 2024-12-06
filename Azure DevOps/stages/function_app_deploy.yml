@@ -1,7 +1,7 @@
 parameters:
 - name: azureSubscription
   type: string
-  default: 'AzureServiceConnection'
+  default: ''
 - name: appName
   type: string
   default: 'func-azuredevops-test'
@@ -19,7 +19,7 @@ jobs:
   - job: deploy
     displayName: functionApp_${{ parameters.appName }}_deploy
     steps:
-    
+
     - download: ${{ parameters.downloadVersion }}
       artifact: ${{ parameters.artifactName }}
         
