@@ -18,14 +18,15 @@ stages:
       appName: 'func-azuredevops-test'
     # Other parameters could be passed here, but the default values are what is needed already
 
-- stage: Build dev
+- stage: Deploy_Dev
   displayName: Deploy Function App to development environment # in this example in the sandbox, there is no difference as only one RG and one App have been created
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/develop')
   jobs:
   - template: ../../Azure DevOps/stages/function_app_deploy.yml
     # Pass parameters here
 
-- stage: Deploy Function App to production environment # in this example in the sandbox, there is no difference as only one RG and one App have been created
+- stage: Deploy_Prod
+  displayName: Deploy Function App to production environment # in this example in the sandbox, there is no difference as only one RG and one App have been created
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
   jobs:
   - template: ../../Azure DevOps/stages/function_app_deploy.yml
