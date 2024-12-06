@@ -10,13 +10,13 @@ pool:
   name: ubuntu-agent-pool
 
 stages:
-- stage: Build
-  displayName: Build Function App
-  jobs:
-  - template: ../../Azure DevOps/stages/function_app_build.yml
-    parameters:
-      appName: 'func-azuredevops-test'
-    # Other parameters could be passed here, but the default values are what is needed already
+  - stage: Build
+    displayName: Build Function App
+    jobs:
+    - template: ../../Azure DevOps/stages/function_app_build.yml
+      parameters:
+        appName: 'func-azuredevops-test'
+      # Other parameters could be passed here, but the default values are what is needed already
 
 - stage: Deploy_Dev
   displayName: Deploy Function App to development environment # in this example in the sandbox, there is no difference as only one RG and one App have been created
