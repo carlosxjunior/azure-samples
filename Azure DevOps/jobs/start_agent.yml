@@ -16,42 +16,31 @@ parameters:
   default: '2024-07-01'
 
 jobs:
-- job: StartVM
-  displayName: "Start Self-Hosted Agent VM"
-  pool: server # Agentless job
-  steps:
-  - task: AzureCLI@2
-    displayName: "Start VM"
-    inputs:
-      azureSubscription: ${{ parameters.azureSubscription }}
-      scriptType: 'ps'
-      scriptLocation: 'inlineScript'
-      inlineScript: |
-        az vm start --resource-group ${{ parameters.rgName }} --name ${{ parameters.vmName }}
+  - job: StartVM
+    displayName: "Start self-hosted agent"
+    pool: server
+    steps:
 
-  - task: AzureCLI@2
-    displayName: "Wait for VM to Start"
-    inputs:
-      azureSubscription: ${{ parameters.azureSubscription }}
-      scriptType: 'ps'
-      scriptLocation: 'inlineScript'
-      inlineScript: |
-        $maxRetries = 20
-        $retryCount = 0
-        $vmState = ""
-        while ($retryCount -lt $maxRetries -and $vmState -ne "VM running") {
-          $vmState = az vm get-instance-view --resource-group ${{ parameters.rgName }} --name ${{ parameters.vmName }} --query "instanceView.statuses[?starts_with(code, 'PowerState/')].displayStatus" -o tsv
-          if ($vmState -ne "VM running") {
-            Write-Host "VM is not running yet. Retrying in 15 seconds..."
-            Start-Sleep -Seconds 15
-            $retryCount++
-          }
-        }
+      - task: InvokeRESTAPI@1
+        displayName: "Start VM using REST API"
+        inputs:
+          connectionType: 'connectedServiceNameARM'
+          azureServiceConnection: ${{ parameters.azureSubscription }}
+          method: 'POST'
+          urlSuffix: /subscriptions/${{ parameters.subscriptionId }}/resourceGroups/${{ parameters.rgName }}/providers/Microsoft.Compute/virtualMachines/${{ parameters.vmName }}/start?api-version=${{ parameters.apiVersion }}
+          waitForCompletion: 'false'
 
-        if ($vmState -ne "VM running") {
-          Write-Error "VM failed to start within the timeout period."
-          exit 1
-        }
-        Write-Host "VM is running."
+      - task: Delay@1
+        displayName: "Wait for VM to start"
+        inputs:
+          delayForMinutes: '1'
 
-
+      - task: InvokeRESTAPI@1
+        displayName: "Check VM is running"
+        inputs:
+          connectionType: 'connectedServiceNameARM'
+          azureServiceConnection: ${{ parameters.azureSubscription }}
+          method: 'GET'
+          urlSuffix: /subscriptions/${{ parameters.subscriptionId }}/resourceGroups/${{ parameters.rgName }}/providers/Microsoft.Compute/virtualMachines/${{ parameters.vmName }}?$expand=InstanceView&api-version=${{ parameters.apiVersion }}
+          waitForCompletion: 'false'
+          successCriteria: eq(root['properties']['instanceView']['statuses'][1]['code'], 'PowerState/running')
