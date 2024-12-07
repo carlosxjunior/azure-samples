@@ -42,5 +42,5 @@ jobs:
 
       - task: PublishBuildArtifacts@1
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)/build$(Build.BuildId).zip'
           artifactName: 'function-app-artifact'
