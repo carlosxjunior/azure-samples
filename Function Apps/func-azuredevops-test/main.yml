@@ -1,0 +1,49 @@
+trigger:
+  branches:
+    include:
+    - develop
+    - main
+  paths:
+    include:
+    - "Function Apps/func-azuredevops-test/*"
+
+pool:
+  name: ubuntu-agent-pool
+
+stages:
+
+  - stage: StartVM
+    displayName: "Start self-hosted agent"
+    jobs:
+      - template: ../../Azure DevOps/jobs/start_agent.yml
+
+  - stage: Build
+    displayName: "Build Function App"
+    dependsOn: StartVM
+    jobs:
+      - template: ../../Azure DevOps/stages/function_app_build.yml
+
+  - stage: Deploy
+    displayName: "Deploy Function App"
+    dependsOn: Build
+    jobs:
+      - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
+        - template: ../../Azure DevOps/stages/function_app_deploy.yml
+          parameters:
+            appName: func-azdotest-dev-001
+      - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+        - template: ../../Azure DevOps/stages/function_app_deploy.yml
+          parameters:
+            appName: func-azdotest-prod-001
+      - ${{ if not(or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))) }}:
+        - job: Fallback
+          displayName: "Fallback job"
+          steps:
+            - script: echo "No deployment needed for this run as it was not triggered by a PR to either 'develop' or 'main' branch."
+
+  - stage: DeallocateVM
+    displayName: "Deallocate self-hosted agent"
+    jobs:
+      - template: ../../Azure DevOps/jobs/stop_agent.yml
+
+
