@@ -39,7 +39,7 @@ jobs:
       - task: ArchiveFiles@2
         displayName: "Archive files (zip function files)"
         inputs:
-          rootFolderOrFile: "$(System.DefaultWorkingDirectory)"
+          rootFolderOrFile: "$(System.DefaultWorkingDirectory)/Function Apps/func-azuredevops-test"
           includeRootFolder: false
           archiveFile: "$(Build.ArtifactStagingDirectory)/build$(Build.BuildId).zip"
 
