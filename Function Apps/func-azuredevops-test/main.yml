@@ -31,6 +31,10 @@ stages:
         - template: ../../Azure DevOps/stages/function_app_deploy.yml
           parameters:
             appName: func-azdotest-dev-001
+      - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/fix/main.yml') }}:
+        - template: ../../Azure DevOps/stages/function_app_deploy.yml
+          parameters:
+            appName: func-azdotest-dev-001
       - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
         - template: ../../Azure DevOps/stages/function_app_deploy.yml
           parameters:
