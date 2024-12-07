@@ -17,7 +17,7 @@ parameters:
 
 jobs:
   - job: deploy
-    displayName: functionApp_${{ parameters.appName }}_deploy
+    displayName: functionApp_deploy_${{ parameters.appName }}
     steps:
 
     - download: ${{ parameters.downloadVersion }}
@@ -29,5 +29,5 @@ jobs:
         connectedServiceNameARM: ${{ parameters.azureSubscription }}
         appType: ${{ parameters.appType }}
         appName: ${{ parameters.appName }}
-        package: '$(Pipeline.Workspace)/${{ parameters.artifactName }}/*.zip'
+        package: '$(Pipeline.Workspace)/${{ parameters.artifactName }}/build$(Build.BuildId).zip'
         deploymentMethod: 'auto'
