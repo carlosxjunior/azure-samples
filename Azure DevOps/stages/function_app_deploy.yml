@@ -30,4 +30,3 @@ jobs:
         appType: ${{ parameters.appType }}
         appName: ${{ parameters.appName }}
         package: '$(Pipeline.Workspace)/${{ parameters.artifactName }}/build$(Build.BuildId).zip'
-        deploymentMethod: 'zipDeploy'
