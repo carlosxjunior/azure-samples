@@ -40,7 +40,7 @@ jobs:
         $retryCount = 0
         $vmState = ""
         while ($retryCount -lt $maxRetries -and $vmState -ne "VM running") {
-          $vmState = az vm get-instance-view --resource-group ${{ parameters.resourceGroup }} --name ${{ parameters.vmName }} --query "instanceView.statuses[?starts_with(code, 'PowerState/')].displayStatus" -o tsv
+          $vmState = az vm get-instance-view --resource-group ${{ parameters.rgName }} --name ${{ parameters.vmName }} --query "instanceView.statuses[?starts_with(code, 'PowerState/')].displayStatus" -o tsv
           if ($vmState -ne "VM running") {
             Write-Host "VM is not running yet. Retrying in 15 seconds..."
             Start-Sleep -Seconds 15
