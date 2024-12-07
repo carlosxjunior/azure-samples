@@ -29,5 +29,5 @@ jobs:
         connectedServiceNameARM: ${{ parameters.azureSubscription }}
         appType: ${{ parameters.appType }}
         appName: ${{ parameters.appName }}
-        package: '$(System.DefaultWorkingDirectory)/${{ parameters.artifactName }}/*.zip'
+        package: '$(Pipeline.Workspace)/${{ parameters.artifactName }}/*.zip'
         deploymentMethod: 'auto'
