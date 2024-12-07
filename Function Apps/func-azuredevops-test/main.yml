@@ -19,7 +19,7 @@ stages:
 
   - stage: Build
     displayName: "Build Function App"
-    dependsOn: StartVM
+    # dependsOn: StartVM
     jobs:
       - template: ../../Azure DevOps/stages/function_app_build.yml
 
