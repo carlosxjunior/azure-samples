@@ -3,6 +3,9 @@ trigger:
     include:
     - develop
     - main
+  paths:
+    include:
+    - "Function Apps\func-azuredevops-test"
 
 pool:
   name: ubuntu-agent-pool
