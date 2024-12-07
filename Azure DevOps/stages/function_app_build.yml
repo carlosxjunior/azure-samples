@@ -7,8 +7,8 @@ parameters:
   default: 'function-app-artifact'
 
 jobs:
-  - job: build
-    displayName: functionApp_build
+  - job: Build
+    displayName: "Build Function App"
     steps:
 
       - task: UsePythonVersion@0

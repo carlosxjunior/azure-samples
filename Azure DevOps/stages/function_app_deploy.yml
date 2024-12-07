@@ -16,8 +16,8 @@ parameters:
   default: 'function-app-artifact'
 
 jobs:
-  - job: deploy
-    displayName: functionApp_deploy_${{ parameters.appName }}
+  - job: Deploy
+    displayName: "Deploy Function App > ${{ parameters.appName }}"
     steps:
 
     - download: ${{ parameters.downloadVersion }}
