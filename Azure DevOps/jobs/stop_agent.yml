@@ -1,0 +1,30 @@
+parameters:
+- name: azureSubscription
+  type: string
+  default: 'AzureSubscriptionServiceConnection'
+- name: subscriptionId
+  type: string
+  default: '76c37c1c-f2c8-42b5-aa22-0696f45d8f37'
+- name: rgName
+  type: string
+  default: 'rg-shared'
+- name: vmName
+  type: string
+  default: 'vm-agentpool-shared-001'
+- name: apiVersion
+  type: string
+  default: '2024-07-01'
+
+jobs:
+- job: StopVM
+  displayName: "Stop self-hosted agent VM"
+  pool: server
+  steps:
+  - task: HttpRequest@2
+    displayName: "Stop VM via REST API"
+    inputs:
+      connectedServiceName: ${{ parameters.azureSubscription }}
+      method: 'POST'
+      urlSuffix: '/subscriptions/${{ parameters.subscriptionId }}/resourceGroups/${{ parameters.rgName }}/providers/Microsoft.Compute/virtualMachines/${{ parameters.vmName }}/deallocate?api-version=2024-07-01'
+      headers: |
+        Content-Type: application/json
