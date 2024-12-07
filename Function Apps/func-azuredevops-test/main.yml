@@ -5,7 +5,7 @@ trigger:
     - main
   paths:
     include:
-    - "Function Apps\func-azuredevops-test"
+    - "Function Apps/func-azuredevops-test/*"
 
 pool:
   name: ubuntu-agent-pool
@@ -41,9 +41,9 @@ stages:
           steps:
             - script: echo "No deployment needed for this run as it was not triggered by a PR to either 'develop' or 'main' branch."
 
-    - stage: DeallocateVM
-      displayName: "Deallocate self-hosted agent"
-      jobs:
-        - template: ../../Azure DevOps/jobs/start_agent.yml
+  - stage: DeallocateVM
+    displayName: "Deallocate self-hosted agent"
+    jobs:
+      - template: ../../Azure DevOps/jobs/start_agent.yml
 
 
