@@ -16,72 +16,42 @@ parameters:
   default: '2024-07-01'
 
 jobs:
-
-- job: CheckAndStartVM
-  displayName: "Check and start self-hosted agent VM"
+- job: StartVM
+  displayName: "Start Self-Hosted Agent VM"
   pool: server # Agentless job
   steps:
-  
-  - task: HttpRequest@2
-    displayName: "Check VM power state"
+  - task: AzureCLI@2
+    displayName: "Start VM"
     inputs:
-      connectedServiceName: ${{ parameters.azureSubscription }}
-      method: 'GET'
-      urlSuffix: '/subscriptions/${{ parameters.subscriptionId }}/resourceGroups/${{ parameters.rgName }}/providers/Microsoft.Compute/virtualMachines/${{ parameters.vmName }}?api-version=${{ parameters.apiVersion }}&$expand=InstanceView'
-      headers: |
-        Content-Type: application/json
-    registerOutput: true
-    timeoutInMinutes: 2
+      azureSubscription: ${{ parameters.azureSubscription }}
+      scriptType: 'ps'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        az vm start --resource-group ${{ parameters.rgName }} --name ${{ parameters.vmName }}
 
-  - script: |
-      echo "Checking VM power state..."
-      echo $RESPONSE_CONTENT
-      VM_STATE=$(echo "$RESPONSE_CONTENT" | jq -r '.properties.instanceView.statuses[1].code')
-      echo "Current state for VM ${{ parameters.vmName }}: $VM_STATE"
-
-      if [ "$VM_STATE" = "PowerState/running" ]; then
-        echo "VM is already running. No action needed."
-        exit 0
-      else
-        echo "VM is not running. Proceeding to start it..."
-      fi
-    displayName: "Evaluate VM state"
-    condition: always() # Run after the previous step regardless of its outcome
-
-  - task: HttpRequest@2
-    displayName: "Start VM via REST API"
+  - task: AzureCLI@2
+    displayName: "Wait for VM to Start"
     inputs:
-      connectedServiceName: ${{ parameters.azureSubscription }}
-      method: 'POST'
-      urlSuffix: '/subscriptions/${{ parameters.subscriptionId }}/resourceGroups/${{ parameters.rgName }}/providers/Microsoft.Compute/virtualMachines/${{ parameters.vmName }}/start?api-version=${{ parameters.apiVersion }}'
-      headers: |
-        Content-Type: application/json
-    condition: eq(variables['VM_STATE'], 'PowerState/deallocated')
+      azureSubscription: ${{ parameters.azureSubscription }}
+      scriptType: 'ps'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        $maxRetries = 20
+        $retryCount = 0
+        $vmState = ""
+        while ($retryCount -lt $maxRetries -and $vmState -ne "VM running") {
+          $vmState = az vm get-instance-view --resource-group ${{ parameters.resourceGroup }} --name ${{ parameters.vmName }} --query "instanceView.statuses[?starts_with(code, 'PowerState/')].displayStatus" -o tsv
+          if ($vmState -ne "VM running") {
+            Write-Host "VM is not running yet. Retrying in 15 seconds..."
+            Start-Sleep -Seconds 15
+            $retryCount++
+          }
+        }
 
-  - task: HttpRequest@2
-    displayName: "Wait for VM to start"
-    inputs:
-      connectedServiceName: ${{ parameters.azureSubscription }}
-      method: 'GET'
-      urlSuffix: '/subscriptions/${{ parameters.subscriptionId }}/resourceGroups/${{ parameters.rgName }}/providers/Microsoft.Compute/virtualMachines/${{ parameters.vmName }}?api-version=${{ parameters.apiVersion }}&$expand=InstanceView'
-      headers: |
-        Content-Type: application/json
-    retryIntervalInSeconds: 15
-    retryCount: 5
-    registerOutput: true
+        if ($vmState -ne "VM running") {
+          Write-Error "VM failed to start within the timeout period."
+          exit 1
+        }
+        Write-Host "VM is running."
 
-- script: |
-    echo "Checking VM state..."
-    echo $RESPONSE_CONTENT
-    VM_STATE=$(echo "$RESPONSE_CONTENT" | jq -r '.properties.instanceView.statuses[1].code')
-
-    if [ "$VM_STATE" = "PowerState/running" ]; then
-      echo "VM is running. Proceeding to the next stage."
-      exit 0
-    else
-      echo "VM is not yet running. Current state: $VM_STATE."
-      exit 1
-    fi
-  displayName: "Evaluate VM State after Retry"
-  condition: eq(variables['HttpRequest.ResponseCode'], 200)
 

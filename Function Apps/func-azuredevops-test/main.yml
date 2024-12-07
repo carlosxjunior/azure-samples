@@ -39,10 +39,4 @@ stages:
           steps:
             - script: echo "No deployment needed for this run as it was not triggered by a PR to either 'develop' or 'main' branch."
 
-  - stage: DeallocateVM
-    displayName: Deallocate agent
-    dependsOn: Deploy
-    jobs:
-      - template: ../../Azure DevOps/jobs/stop_vm.yml
-
 
