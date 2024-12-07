@@ -2,6 +2,9 @@ parameters:
 - name: pythonVersion
   type: string
   default: '3.x'
+- name: artifactName
+  type: string
+  default: 'function-app-artifact'
 
 jobs:
   - job: build
@@ -43,4 +46,4 @@ jobs:
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)/build$(Build.BuildId).zip'
-          artifactName: 'function-app-artifact'
+          artifactName: ${{ parameters.artifactName }}
