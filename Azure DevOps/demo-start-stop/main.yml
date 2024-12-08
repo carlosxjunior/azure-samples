@@ -1,0 +1,12 @@
+pool:
+  vmImage: 'ubuntu-latest' # Microsoft hosted
+
+stages:
+- stage: Demo
+  displayName: "Demo stage"
+  jobs:
+  - job: DemoJob
+    displayName: "Demo job"
+    steps:
+      - script: echo "Hello, Azure DevOps!"
+        displayName: "Print a message"
