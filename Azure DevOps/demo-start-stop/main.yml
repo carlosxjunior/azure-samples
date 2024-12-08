@@ -1,5 +1,5 @@
 pool:
-  name: 'ubuntu-agent-pool' # Microsoft hosted
+  vmImage: 'ubuntu-latest' # Microsoft hosted
 
 stages:
 - stage: Demo
