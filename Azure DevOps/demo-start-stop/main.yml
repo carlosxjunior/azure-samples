@@ -4,9 +4,9 @@ pool:
 stages:
 
 - stage: StartVM
-    displayName: "Start self-hosted agent"
-    jobs:
-      - template: ../../Azure DevOps/jobs/start_agent.yml
+  displayName: "Start self-hosted agent"
+  jobs:
+    - template: ../../Azure DevOps/jobs/start_agent.yml
 
 - stage: Demo
   displayName: "Demo stage"
@@ -18,6 +18,6 @@ stages:
         displayName: "Print a message"
 
 - stage: DeallocateVM
-    displayName: "Deallocate self-hosted agent"
-    jobs:
-      - template: ../../Azure DevOps/jobs/stop_agent.yml 
+  displayName: "Deallocate self-hosted agent"
+  jobs:
+    - template: ../../Azure DevOps/jobs/stop_agent.yml 
