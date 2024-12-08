@@ -1,5 +1,5 @@
 pool:
-  name: 'ubuntu-latest' # Microsoft hosted
+  vmImage: 'ubuntu-latest' # Microsoft hosted
 
 stages:
 
