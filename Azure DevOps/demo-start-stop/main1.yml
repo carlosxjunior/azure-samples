@@ -1,6 +1,11 @@
 variables:
 - group: ubuntu-agent-info
 
+parameters:
+- name: vm
+  type: string
+  default: $(vmName)
+
 pool:
   name: ubuntu-agent-pool
 
@@ -12,4 +17,13 @@ stages:
     displayName: "Demo job"
     steps:
       - script: echo Hello, $(vmName)!
+        displayName: "Print a message"
+        
+- stage: Demo1
+  displayName: "Demo stage 1"
+  jobs:
+  - job: DemoJob
+    displayName: "Demo job"
+    steps:
+      - script: echo Hello, ${{ parameters.vm }}!
         displayName: "Print a message"
