@@ -1,16 +1,19 @@
+variables:
+- group: ubuntu-agent-pool
+
 parameters:
 - name: azureSubscription
   type: string
   default: 'AzureSubscriptionServiceConnection'
 - name: subscriptionId
   type: string
-  default: '76c37c1c-f2c8-42b5-aa22-0696f45d8f37'
+  default: $(subscriptionId)
 - name: rgName
   type: string
-  default: 'rg-shared'
+  default: $(rgName)
 - name: vmName
   type: string
-  default: 'vm-agentpool-shared-001'
+  default: $(vmName)
 - name: apiVersion
   type: string
   default: '2024-07-01'
