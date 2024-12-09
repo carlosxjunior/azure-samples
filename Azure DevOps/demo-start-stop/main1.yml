@@ -11,5 +11,5 @@ stages:
   - job: DemoJob
     displayName: "Demo job"
     steps:
-      - script: echo Hello, ($vmName)!
+      - script: echo Hello, $(vmName)!
         displayName: "Print a message"
