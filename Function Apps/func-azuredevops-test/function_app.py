@@ -18,6 +18,6 @@ def hello_you(req: func.HttpRequest, context=func.Context):
     logging.info(f"PYLOG: Python http trigger function {context.function_name} processed a request.")
     you = req.params.get("you")
     return func.HttpResponse(
-        f"Hello, {you}",
+        f"Hello, {you}!",
         status_code=200
     )
