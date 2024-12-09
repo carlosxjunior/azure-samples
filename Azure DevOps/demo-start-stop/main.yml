@@ -1,4 +1,4 @@
-# Disable pr triggers
+# Disable PR triggers (default is it will be triggered whenever a PR is created)
 pr: none
 
 pool:
