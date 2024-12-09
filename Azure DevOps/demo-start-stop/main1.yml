@@ -1,0 +1,6 @@
+variables:
+- group: ubuntu-agent-pool
+
+steps:
+  - script: echo "Hello, $(vmName)"
+  displayName: "Print a message"
