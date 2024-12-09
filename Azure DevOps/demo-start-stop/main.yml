@@ -1,5 +1,13 @@
+# Disable PR triggers (default is it will be triggered whenever a PR is created)
+pr: none
+# Disable CI triggers entirely (this pipeline is used for testing and will be run manually)
+trigger: none
+
 pool:
   name: 'ubuntu-agent-pool' # Self-hosted
+
+variables:
+- group: ubuntu-agent-info
 
 stages:
 
@@ -7,6 +15,10 @@ stages:
   displayName: "Start self-hosted agent"
   jobs:
     - template: ../../Azure DevOps/jobs/start_agent.yml
+      parameters:
+        subscriptionId: $(subscriptionId)
+        rgName: $(rgName)
+        vmName: $(vmName)
 
 - stage: Demo
   displayName: "Demo stage"
@@ -21,3 +33,7 @@ stages:
   displayName: "Deallocate self-hosted agent"
   jobs:
     - template: ../../Azure DevOps/jobs/stop_agent.yml
+      parameters:
+        subscriptionId: $(subscriptionId)
+        rgName: $(rgName)
+        vmName: $(vmName)
