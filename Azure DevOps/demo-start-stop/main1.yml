@@ -1,6 +1,12 @@
 variables:
 - group: ubuntu-agent-pool
 
-steps:
-  - script: echo "Hello, $(vmName)"
-  displayName: "Print a message"
+stages:
+- stage: Demo
+  displayName: "Demo stage"
+  jobs:
+  - job: DemoJob
+    displayName: "Demo job"
+    steps:
+      - script: echo "Hello, ($vmName)!"
+        displayName: "Print a message"
