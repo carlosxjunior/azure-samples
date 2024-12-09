@@ -13,12 +13,19 @@ trigger:
 pool:
   name: ubuntu-agent-pool
 
+variables:
+- group: ubuntu-agent-info
+
 stages:
 
   - stage: StartVM
     displayName: "Start self-hosted agent"
     jobs:
       - template: ../../Azure DevOps/jobs/start_agent.yml
+        parameters:
+          subscriptionId: $(subscriptionId)
+          rgName: $(rgName)
+          vmName: $(vmName)
 
   - stage: Build
     displayName: "Build Function App"
@@ -48,5 +55,9 @@ stages:
     displayName: "Deallocate self-hosted agent"
     jobs:
       - template: ../../Azure DevOps/jobs/stop_agent.yml
+        parameters:
+          subscriptionId: $(subscriptionId)
+          rgName: $(rgName)
+          vmName: $(vmName)
 
 
