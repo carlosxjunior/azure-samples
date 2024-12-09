@@ -1,6 +1,9 @@
 variables:
 - group: ubuntu-agent-pool
 
+pool:
+  name: ubuntu-agent-pool
+
 stages:
 - stage: Demo
   displayName: "Demo stage"
