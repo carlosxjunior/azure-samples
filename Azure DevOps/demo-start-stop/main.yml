@@ -1,3 +1,6 @@
+# Disable pr triggers
+pr: none
+
 pool:
   name: 'ubuntu-agent-pool' # Self-hosted
 

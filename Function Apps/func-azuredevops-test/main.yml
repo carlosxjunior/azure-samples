@@ -1,3 +1,6 @@
+# Disable pr triggers
+pr: none
+
 trigger:
   branches:
     include:
