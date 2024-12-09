@@ -19,13 +19,13 @@ variables:
 stages:
 
   - stage: StartVM
-  displayName: "Start self-hosted agent"
-  jobs:
-    - template: ../../Azure DevOps/jobs/start_agent.yml
-      parameters:
-        subscriptionId: $(subscriptionId)
-        rgName: $(rgName)
-        vmName: $(vmName)
+    displayName: "Start self-hosted agent"
+    jobs:
+      - template: ../../Azure DevOps/jobs/start_agent.yml
+        parameters:
+          subscriptionId: $(subscriptionId)
+          rgName: $(rgName)
+          vmName: $(vmName)
 
   - stage: Build
     displayName: "Build Function App"
@@ -52,12 +52,12 @@ stages:
             - script: echo "No deployment needed for this run as it was not triggered by a PR to either 'develop' or 'main' branch."
 
   - stage: DeallocateVM
-  displayName: "Deallocate self-hosted agent"
-  jobs:
-    - template: ../../Azure DevOps/jobs/stop_agent.yml
-      parameters:
-        subscriptionId: $(subscriptionId)
-        rgName: $(rgName)
-        vmName: $(vmName)
+    displayName: "Deallocate self-hosted agent"
+    jobs:
+      - template: ../../Azure DevOps/jobs/stop_agent.yml
+        parameters:
+          subscriptionId: $(subscriptionId)
+          rgName: $(rgName)
+          vmName: $(vmName)
 
 
