@@ -1,5 +1,5 @@
 variables:
-- group: ubuntu-agent-pool
+- group: ubuntu-agent-info
 
 pool:
   name: ubuntu-agent-pool
@@ -11,5 +11,5 @@ stages:
   - job: DemoJob
     displayName: "Demo job"
     steps:
-      - script: echo "Hello, ($vmName)!"
+      - script: echo Hello, ($vmName)!
         displayName: "Print a message"
