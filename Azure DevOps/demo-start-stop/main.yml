@@ -1,5 +1,5 @@
 pool:
-  name: 'ubuntu-agent-pool' # Microsoft hosted
+  name: 'ubuntu-agent-pool' # Self-hosted
 
 stages:
 
