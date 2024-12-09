@@ -1,19 +1,16 @@
-variables:
-- group: ubuntu-agent-info
-
 parameters:
 - name: azureSubscription
   type: string
   default: 'AzureSubscriptionServiceConnection'
 - name: subscriptionId
   type: string
-  default: $(subscriptionId)
+  default: ''
 - name: rgName
   type: string
-  default: $(rgName)
+  default: ''
 - name: vmName
   type: string
-  default: $(vmName)
+  default: ''
 - name: apiVersion
   type: string
   default: '2024-07-01'
