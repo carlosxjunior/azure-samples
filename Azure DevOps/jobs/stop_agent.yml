@@ -1,5 +1,5 @@
 variables:
-- group: ubuntu-agent-pool
+- group: ubuntu-agent-info
 
 parameters:
 - name: azureSubscription
