@@ -7,7 +7,7 @@ AGENT_POOL="$3"                 # Agent pool name
 
 # Optional Parameters with Defaults
 AGENT_VERSION="${4:-4.248.0}"   # Default agent version
-AGENT_DIR="${5:-myagent}"       # Default agent directory
+AGENT_DIR="${5:-azure-pipelines-agent}"       # Default agent directory
 AGENT_NAME="${6:-myAzureBuildAgent}"  # Default agent name
 WORK_FOLDER="${7:-_work}"       # Default work folder
 
