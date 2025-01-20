@@ -1,5 +1,5 @@
 import pytest
-from src.simple_math import SimpleMath
+from src.SimpleMath import SimpleMath
 
 @pytest.mark.parametrize(
         "a, b, expected", 
