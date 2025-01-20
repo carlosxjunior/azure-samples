@@ -8,10 +8,10 @@ trigger:
     - main
   paths:
     include:
-    - "Azure DevOps/demo-start-stop/*"
+    - "Azure Pipelines/demo-deploy-to-vm/*"
 
 pool:
-  name: 'ubuntu-sh-agent-pool' # Self-hosted
+  name: ubuntu-sh-agent-pool # Self-hosted
 
 variables:
 - group: ubuntu-sh-agent-info
