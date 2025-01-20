@@ -33,7 +33,7 @@ stages:
     jobs:
       - template: ../../Azure DevOps/jobs/python_app_build.yml
 
-    - stage: Validate
+  - stage: Validate
     displayName: "Test Python app"
     dependsOn: Build
     jobs:
