@@ -40,13 +40,17 @@ stages:
     dependsOn: Validate
     jobs:
       - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
-        - template: ../../Azure Pipelines/jobs/function_app_deploy.yml
+        - template: ../../Azure Pipelines/jobs/python_app_deploy.yml
           parameters:
-            appName: func-azdotest-dev-001
+            environmentName: demo-environment
       - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
-        - template: ../../Azure Pipelines/jobs/function_app_deploy.yml
+        - template: ../../Azure Pipelines/jobs/python_app_deploy.yml
           parameters:
-            appName: func-azdotest-prod-001
+            environmentName: demo-environment
+      - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/feature/demo-deploy-to-vm') }}:
+        - template: ../../Azure Pipelines/jobs/python_app_deploy.yml
+          parameters:
+            environmentName: demo-environment
       - ${{ if not(or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))) }}:
         - job: Fallback
           displayName: "Fallback job"
