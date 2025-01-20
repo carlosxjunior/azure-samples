@@ -14,7 +14,7 @@ stages:
 - stage: StartVM
   displayName: "Start self-hosted agent"
   jobs:
-    - template: ../../Azure DevOps/jobs/start_agent.yml
+    - template: ../../Azure Pipelines/jobs/start_agent.yml
       parameters:
         subscriptionId: $(subscriptionId)
         rgName: $(rgName)
@@ -26,13 +26,13 @@ stages:
   - job: DemoJob
     displayName: "Demo job"
     steps:
-      - script: echo "Hello, Azure DevOps!"
+      - script: echo "Hello, Azure Pipelines!"
         displayName: "Print a message"
 
 - stage: DeallocateVM
   displayName: "Deallocate self-hosted agent"
   jobs:
-    - template: ../../Azure DevOps/jobs/stop_agent.yml
+    - template: ../../Azure Pipelines/jobs/stop_agent.yml
       parameters:
         subscriptionId: $(subscriptionId)
         rgName: $(rgName)

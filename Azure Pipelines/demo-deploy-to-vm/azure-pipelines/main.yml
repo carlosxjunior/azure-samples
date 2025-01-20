@@ -21,7 +21,7 @@ stages:
   - stage: StartVM
     displayName: "Start self-hosted agent"
     jobs:
-      - template: ../../Azure DevOps/jobs/start_agent.yml
+      - template: ../../Azure Pipelines/jobs/start_agent.yml
         parameters:
           subscriptionId: $(subscriptionId)
           rgName: $(rgName)
@@ -31,24 +31,24 @@ stages:
     displayName: "Build Python app"
     dependsOn: StartVM
     jobs:
-      - template: ../../Azure DevOps/jobs/python_app_build.yml
+      - template: ../../Azure Pipelines/jobs/python_app_build.yml
 
   - stage: Validate
     displayName: "Test Python app"
     dependsOn: Build
     jobs:
-      - template: ../../Azure DevOps/jobs/python_app_test.yml
+      - template: ../../Azure Pipelines/jobs/python_app_test.yml
 
   - stage: Deploy
     displayName: "Deploy Python app"
     dependsOn: Build
     jobs:
       - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
-        - template: ../../Azure DevOps/jobs/function_app_deploy.yml
+        - template: ../../Azure Pipelines/jobs/function_app_deploy.yml
           parameters:
             appName: func-azdotest-dev-001
       - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
-        - template: ../../Azure DevOps/jobs/function_app_deploy.yml
+        - template: ../../Azure Pipelines/jobs/function_app_deploy.yml
           parameters:
             appName: func-azdotest-prod-001
       - ${{ if not(or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))) }}:
