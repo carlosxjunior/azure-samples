@@ -30,11 +30,11 @@ jobs:
             targetType: 'inline'
             script: |
                 echo "Starting deployment script run"
-                sudo rm -rf '${{ parameters.projectDirectory }}/*'
+                sudo rm -rf ${{ parameters.projectDirectory }}/*
                 mkdir -p ${{ parameters.projectDirectory }}
                 sudo apt install unzip
                 unzip $(Pipeline.Workspace)/drop/$(Build.BuildId)-${{ parameters.pythonVersion }}.zip -d ${{ parameters.projectDirectory }}
-                cd '${{ parameters.projectDirectory }}'
+                cd ${{ parameters.projectDirectory }}
                 python3 -m venv myenv
                 source myenv/bin/activate
                 pip install -r requirements.txt
