@@ -43,14 +43,17 @@ stages:
         - template: ../../../Azure Pipelines/jobs/python_app_deploy.yml
           parameters:
             environmentName: demo-environment
+            projectDirectory: 'Azure\ Pipelines/demo-deploy-to-vm/'
       - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
         - template: ../../../Azure Pipelines/jobs/python_app_deploy.yml
           parameters:
             environmentName: demo-environment
+            projectDirectory: 'Azure\ Pipelines/demo-deploy-to-vm/'
       - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/feature/demo-deploy-to-vm') }}:
         - template: ../../../Azure Pipelines/jobs/python_app_deploy.yml
           parameters:
             environmentName: demo-environment
+            projectDirectory: 'Azure\ Pipelines/demo-deploy-to-vm/'
       - ${{ if not(or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))) }}:
         - job: Fallback
           displayName: "Fallback job"
