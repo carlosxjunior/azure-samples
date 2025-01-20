@@ -8,7 +8,7 @@ trigger:
     - main
   paths:
     include:
-    - "Azure Pipelines/demo-deploy-to-vm/*"
+    - "Azure-Pipelines/demo-deploy-to-vm/*"
 
 pool:
   name: ubuntu-sh-agent-pool # Self-hosted
@@ -22,38 +22,38 @@ stages:
     displayName: "Build Python app"
     # dependsOn: StartVM
     jobs:
-      - template: ../../../Azure Pipelines/jobs/python_app_build.yml
+      - template: ../../../Azure-Pipelines/jobs/python_app_build.yml
         parameters:
-          projectDirectory: 'Azure Pipelines/demo-deploy-to-vm/'
+          projectDirectory: 'Azure-Pipelines/demo-deploy-to-vm/'
 
 
   - stage: Validate
     displayName: "Test Python app"
     dependsOn: Build
     jobs:
-      - template: ../../../Azure Pipelines/jobs/python_app_test.yml
+      - template: ../../../Azure-Pipelines/jobs/python_app_test.yml
         parameters:
-          projectDirectory: 'Azure Pipelines/demo-deploy-to-vm/'
+          projectDirectory: 'Azure-Pipelines/demo-deploy-to-vm/'
 
   - stage: Deploy
     displayName: "Deploy Python app"
     dependsOn: Validate
     jobs:
       - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
-        - template: ../../../Azure Pipelines/jobs/python_app_deploy.yml
+        - template: ../../../Azure-Pipelines/jobs/python_app_deploy.yml
           parameters:
             environmentName: demo-environment
-            projectDirectory: 'Azure Pipelines/demo-deploy-to-vm/'
+            projectDirectory: 'Azure-Pipelines/demo-deploy-to-vm/'
       - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
-        - template: ../../../Azure Pipelines/jobs/python_app_deploy.yml
+        - template: ../../../Azure-Pipelines/jobs/python_app_deploy.yml
           parameters:
             environmentName: demo-environment
-            projectDirectory: 'Azure Pipelines/demo-deploy-to-vm/'
+            projectDirectory: 'Azure-Pipelines/demo-deploy-to-vm/'
       - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/feature/demo-deploy-to-vm') }}:
-        - template: ../../../Azure Pipelines/jobs/python_app_deploy.yml
+        - template: ../../../Azure-Pipelines/jobs/python_app_deploy.yml
           parameters:
             environmentName: demo-environment
-            projectDirectory: 'Azure Pipelines/demo-deploy-to-vm/'
+            projectDirectory: 'Azure-Pipelines/demo-deploy-to-vm/'
       - ${{ if not(or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))) }}:
         - job: Fallback
           displayName: "Fallback job"
