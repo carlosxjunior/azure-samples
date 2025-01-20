@@ -41,6 +41,8 @@ jobs:
                 echo "Unzipped the artifact to project directory"
                 cd ${{ parameters.projectDirectory }}
                 pwd
+                sudo apt-get update
+                sudo apt-get install -y python3.12-venv
                 python3 -m venv myenv
                 source myenv/bin/activate
                 pip install -r requirements.txt
