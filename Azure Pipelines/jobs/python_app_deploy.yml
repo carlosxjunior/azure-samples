@@ -7,7 +7,7 @@ jobs:
 - deployment: VMDeploy
   displayName: Deploy to VM
   environment:
-    name: {{ parameters.environmentName }}
+    name: ${{ parameters.environmentName }}
     resourceType: VirtualMachine
   strategy:
     runOnce:
