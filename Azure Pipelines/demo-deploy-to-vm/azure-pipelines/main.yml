@@ -55,4 +55,4 @@ stages:
         - job: Fallback
           displayName: "Fallback job"
           steps:
-            - script: echo "No deployment needed for this run as it was not triggered by a PR to either 'develop' or 'main' branch."
+            - script: echo "No deployment for this run as it was not triggered by a PR to either 'develop' or 'main' branch."
