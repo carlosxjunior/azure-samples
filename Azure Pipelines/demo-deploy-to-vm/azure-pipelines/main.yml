@@ -24,7 +24,7 @@ stages:
     jobs:
       - template: ../../../Azure Pipelines/jobs/python_app_build.yml
         parameters:
-          projectDirectory: 'Azure\ Pipelines/demo-deploy-to-vm/'
+          projectDirectory: 'Azure Pipelines/demo-deploy-to-vm/'
 
 
   - stage: Validate
