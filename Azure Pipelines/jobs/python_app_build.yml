@@ -58,6 +58,6 @@ jobs:
           deactivate
           rm -rf myenv
         displayName: 'Clean up Python virtual environment'
-        enabled: false
+        enabled: false # disable this task as venv will be killed in the Validate stage (see python_app_test.yml)
 
       
