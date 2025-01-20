@@ -20,13 +20,13 @@ jobs:
   strategy:
     runOnce:
       # Pre deployment steps
-      preDeploy: Pre-deploy
+      preDeploy:
         steps:
         - download: current
           artifact: ${{ parameters.artifactName }}
           displayName: 'Download artifact'
       # Deployment steps
-      deploy: Deploy
+      deploy:
         steps:
         - task: Bash@3
           inputs:
