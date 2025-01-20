@@ -42,7 +42,7 @@ jobs:
       - task: ArchiveFiles@2
         displayName: 'Archive files'
         inputs:
-          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Azure-Pipelines/demo-deploy-to-vm/'
+          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/${{ parameters.projectDirectory }}'
           includeRootFolder: false
           archiveType: zip
           archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-${{ parameters.pythonVersion }}.zip
@@ -51,7 +51,7 @@ jobs:
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: 'drop'
+          ArtifactName: ${{ parameters.artifactName }}
           publishLocation: 'Container'
 
       - script: |
