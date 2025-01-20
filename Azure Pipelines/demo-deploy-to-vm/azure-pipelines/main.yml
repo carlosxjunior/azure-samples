@@ -32,7 +32,7 @@ stages:
 
   - stage: Deploy
     displayName: "Deploy Python app"
-    dependsOn: Build
+    dependsOn: Validate
     jobs:
       - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
         - template: ../../Azure Pipelines/jobs/function_app_deploy.yml
