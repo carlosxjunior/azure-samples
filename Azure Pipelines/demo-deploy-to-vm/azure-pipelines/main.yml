@@ -26,6 +26,7 @@ stages:
           subscriptionId: $(subscriptionId)
           rgName: $(rgName)
           vmName: $(vmName)
+    condition: false
 
   - stage: Build
     displayName: "Build Python app"
@@ -56,3 +57,13 @@ stages:
           displayName: "Fallback job"
           steps:
             - script: echo "No deployment for this run as it was not triggered by a PR to either 'develop' or 'main' branch."
+
+  - stage: DeallocateVM
+    displayName: "Deallocate self-hosted agent"
+    jobs:
+      - template: ../../../Azure Pipelines/jobs/stop_agent.yml
+        parameters:
+          subscriptionId: $(subscriptionId)
+          rgName: $(rgName)
+          vmName: $(vmName)
+    condition: false
