@@ -5,6 +5,8 @@ parameters:
 - name: artifactName
   type: string
   default: 'python-app-artifact'
+- name: projectDirectory
+  type: string
 
 jobs:
   - job: Build
@@ -29,10 +31,12 @@ jobs:
 
       - script: |
           sudo apt install python3.12-venv
+          cd ${{ parameters.projectDirectory }}
+          pwd
           python3 -m venv myenv
           source myenv/bin/activate
           pip install --upgrade pip
-          pip install -r Azure\ Pipelines/demo-deploy-to-vm/requirements.txt
+          pip install -r requirements.txt
         displayName: 'Set up Python virtual environment with dependencies'
 
       - task: ArchiveFiles@2

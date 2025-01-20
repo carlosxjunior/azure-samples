@@ -2,6 +2,8 @@ parameters:
   - name: pythonVersion
     type: string
     default: '3.x'
+  - name: projectDirectory
+    type: string
 
 jobs:
   - job: Test
@@ -16,8 +18,11 @@ jobs:
 
       - script: |
           sudo apt install python3.12-venv
+          cd ${{ parameters.projectDirectory }}
+          pwd
           python3 -m venv myenv
           source myenv/bin/activate
+          pip install requirements.txt
           pip install pytest
           pytest
         displayName: 'Run pytest tests'
