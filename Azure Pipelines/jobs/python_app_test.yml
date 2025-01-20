@@ -1,0 +1,20 @@
+parameters:
+  - name: pythonVersion
+    type: string
+    default: '3.x'
+
+jobs:
+  - job: Test
+    displayName: 'Run tests'
+    steps:
+      
+      - task: UsePythonVersion@0
+        displayName: 'Set Python version to ${{ parameters.pythonVersion }}'
+        inputs:
+          versionSpec: '${{ parameters.pythonVersion }}'
+        enabled: false # Disable, as Python is already installed on the agent
+
+      - script: |
+          pip install -r requirements.txt
+          pytest
+        displayName: 'Run pytest tests'
