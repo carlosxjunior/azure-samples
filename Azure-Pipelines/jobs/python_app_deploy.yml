@@ -35,9 +35,12 @@ jobs:
                 echo "Starting deployment script run"
                 sudo rm -rf ${{ parameters.projectDirectory }}/*
                 mkdir -p ${{ parameters.projectDirectory }}
+                echo "Removed existing files. Created new directory if not present"
                 sudo apt install unzip
                 unzip $(Pipeline.Workspace)/${{ parameters.artifactName }}/$(Build.BuildId)-${{ parameters.pythonVersion }}.zip -d ${{ parameters.projectDirectory }}
+                echo "Unzipped the artifact to project directory"
                 cd ${{ parameters.projectDirectory }}
+                pwd
                 python3 -m venv myenv
                 source myenv/bin/activate
                 pip install -r requirements.txt
