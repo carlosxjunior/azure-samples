@@ -23,12 +23,17 @@ stages:
     # dependsOn: StartVM
     jobs:
       - template: ../../../Azure Pipelines/jobs/python_app_build.yml
+        parameters:
+          projectDirectory: 'Azure\ Pipelines/demo-deploy-to-vm/'
+
 
   - stage: Validate
     displayName: "Test Python app"
     dependsOn: Build
     jobs:
       - template: ../../../Azure Pipelines/jobs/python_app_test.yml
+        parameters:
+          projectDirectory: 'Azure\ Pipelines/demo-deploy-to-vm/'
 
   - stage: Deploy
     displayName: "Deploy Python app"
