@@ -2,6 +2,9 @@ parameters:
 - name: pythonVersion
   type: string
   default: '3.x'
+- name: artifactName
+  type: string
+  default: 'python-app-artifact'
 - name: environmentName
   type: string
 - name: projectDirectory
@@ -20,7 +23,7 @@ jobs:
       preDeploy:
         steps:
         - download: current
-          artifact: drop
+          artifact: ${{ parameters.artifactName }}
           displayName: 'Download artifact'
       # Deployment steps
       deploy:
