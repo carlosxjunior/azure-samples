@@ -33,7 +33,7 @@ stages:
     jobs:
       - template: ../../../Azure Pipelines/jobs/python_app_test.yml
         parameters:
-          projectDirectory: 'Azure\ Pipelines/demo-deploy-to-vm/'
+          projectDirectory: 'Azure Pipelines/demo-deploy-to-vm/'
 
   - stage: Deploy
     displayName: "Deploy Python app"
