@@ -32,13 +32,17 @@ jobs:
           inputs:
             targetType: 'inline'
             script: |
-                echo "Starting deployment script run"
-                sudo rm -rf ${{ parameters.projectDirectory }}/*
+                echo "Starting deployment script run."
+                if [ ! -d "${{ parameters.projectDirectory }}" ]; then
+                echo "Creating project directory."
                 mkdir -p ${{ parameters.projectDirectory }}
-                echo "Removed existing files. Created new directory if not present"
+                fi
+                echo "Removing existing files from project directory."
+                sudo rm -rf ${{ parameters.projectDirectory }}/*
                 sudo apt install unzip
+                echo "Unzipping the artifact to project directory."
                 unzip $(Pipeline.Workspace)/${{ parameters.artifactName }}/$(Build.BuildId)-${{ parameters.pythonVersion }}.zip -d ${{ parameters.projectDirectory }}
-                echo "Unzipped the artifact to project directory"
+                echo "Creating virtual environment and installing dependencies."
                 cd ${{ parameters.projectDirectory }}
                 pwd
                 sudo apt-get update
@@ -46,6 +50,7 @@ jobs:
                 python3 -m venv myenv
                 source myenv/bin/activate
                 pip install -r requirements.txt
+                echo "Finishing deployment stage."
       on:
         failure:
           steps:
