@@ -25,6 +25,11 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
           pytest
+          exit_code=$?
           deactivate
           rm -rf myenv
+          if [ $exit_code -ne 0 ]; then
+            echo "Tests failed."
+            exit $exit_code
+          fi
         displayName: 'Run pytest tests'
