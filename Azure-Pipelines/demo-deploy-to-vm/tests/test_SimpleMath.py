@@ -26,6 +26,3 @@ def test_add(a, b, expected):
 def test_multiply(a, b, expected):
     """Test the multiply function of SimpleMath."""
     assert SimpleMath.multiply(a, b) == expected
-
-def test_failure():
-    assert False, "This test is designed to fail"
