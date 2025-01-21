@@ -24,6 +24,7 @@ stages:
     jobs:
       - template: ../../../Azure-Pipelines/jobs/python_app_build.yml
         parameters:
+          pythonVersion: '3.10'
           projectDirectory: 'Azure-Pipelines/demo-deploy-to-vm/'
 
 
