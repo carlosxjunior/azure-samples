@@ -30,7 +30,7 @@ jobs:
         displayName: "Install zip utility"
 
       - script: |
-          sudo apt-get install -y python3.12-venv
+          sudo apt-get install -y python3-venv
           cd ${{ parameters.projectDirectory }}
           pwd
           python3 -m venv myenv
