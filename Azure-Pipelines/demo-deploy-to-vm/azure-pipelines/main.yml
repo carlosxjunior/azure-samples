@@ -1,0 +1,62 @@
+# Disable PR triggers (default is it will be triggered whenever a PR is created)
+pr: none
+
+trigger:
+  branches:
+    include:
+    - develop
+    - main
+  paths:
+    include:
+    - "Azure-Pipelines/demo-deploy-to-vm/*"
+
+pool:
+  name: ubuntu-sh-agent-pool # Self-hosted
+
+variables:
+- group: ubuntu-sh-agent-info
+
+stages:
+
+  - stage: Build
+    displayName: "Build Python app"
+    # dependsOn: StartVM
+    jobs:
+      - template: ../../../Azure-Pipelines/jobs/python_app_build.yml
+        parameters:
+          pythonVersion: '3.10'
+          projectDirectory: 'Azure-Pipelines/demo-deploy-to-vm/'
+
+
+  - stage: Validate
+    displayName: "Test Python app"
+    dependsOn: Build
+    jobs:
+      - template: ../../../Azure-Pipelines/jobs/python_app_test.yml
+        parameters:
+          projectDirectory: 'Azure-Pipelines/demo-deploy-to-vm/'
+
+  - stage: Deploy
+    displayName: "Deploy Python app"
+    dependsOn: Validate
+    jobs:
+      - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}:
+        - template: ../../../Azure-Pipelines/jobs/python_app_deploy.yml
+          parameters:
+            environmentName: demo-environment
+            projectDirectory: '/home/azureuser/demo-project/'
+      - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+        - template: ../../../Azure-Pipelines/jobs/python_app_deploy.yml
+          parameters:
+            environmentName: demo-environment
+            projectDirectory: '/home/azureuser/demo-project/'
+      - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/feature/demo-deploy-to-vm') }}:
+        - template: ../../../Azure-Pipelines/jobs/python_app_deploy.yml
+          parameters:
+            environmentName: demo-environment
+            projectDirectory: '/home/azureuser/demo-project/'
+      - ${{ if not(or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))) }}:
+        - job: Fallback
+          displayName: "Fallback job"
+          steps:
+            - script: echo "No deployment for this run as it was not triggered by a PR to either 'develop' or 'main' branch."
