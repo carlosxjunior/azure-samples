@@ -13,6 +13,7 @@ RUN apt-get update -y && \
 
 # Create SAP directory and download SAP NWRFC SDK
 RUN mkdir -p /usr/local/sap/ && \
+    # TODO: change URL to download the SAP NWRFC SDK
     wget --no-check-certificate -O /usr/local/sap/nwrfc750P_15-70002752_RHEL.zip https://github.com/carlosxjunior/studies/raw/refs/heads/feature/pyrfc_file/pyRFC/nwrfc750P_15-70002752_RHEL.zip && \
     unzip /usr/local/sap/nwrfc750P_15-70002752_RHEL.zip -d /usr/local/sap/ && \
     rm /usr/local/sap/nwrfc750P_15-70002752_RHEL.zip
