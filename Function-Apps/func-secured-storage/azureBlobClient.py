@@ -5,13 +5,13 @@ from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
 
 class AzureBlobClient:
-    def __init__(self, connection_string: str=None, account_url: str=None):
+    def __init__(self, connection_string: str=None, account_name: str=None):
         """
         Initializes the AzureBlobClient with a BlobServiceClient.
         :param connection_string: Connection string for the storage account.
-        :param account_url: URL of the storage account for managed identity authentication.
+        :param account_name: Name of the storage account to create the account URL for managed identity authentication.
         """
-        self.blob_service_client = self.create_blob_service_client(connection_string, account_url)
+        self.blob_service_client = self.create_blob_service_client(connection_string, account_name)
 
     def create_blob_service_client(self, connection_string: str=None, account_name: str=None) -> BlobServiceClient:
         """
@@ -27,7 +27,7 @@ class AzureBlobClient:
             except Exception as e:
                 logging.error(f"[Azure Blob Integration]: Error creating BlobServiceClient: {e}.")
                 raise
-        elif account_url:
+        elif account_name:
             try:
                 logging.info("[Azure Blob Integration]: Using managed identity for authentication.")
                 credential = DefaultAzureCredential()
