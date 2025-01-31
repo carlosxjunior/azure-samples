@@ -28,7 +28,6 @@ def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
              status_code=200
         )
 
-"""
 @app.route("read_blob")
 def read_blob(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request to read a blob.')
@@ -75,4 +74,3 @@ def upload_blob(req: func.HttpRequest) -> func.HttpResponse:
     except Exception as e:
         logging.error(f"Error uploading blob: {e}")
         return func.HttpResponse(f"Error uploading blob: {e}", status_code=500)
-"""
