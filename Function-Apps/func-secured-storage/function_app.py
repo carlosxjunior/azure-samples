@@ -3,11 +3,12 @@ import logging
 
 from azureBlobClient import AzureBlobClient
 
-azure_blob_client = AzureBlobClient(account_name="adlsfuncdemo001")
+azure_blob_client = AzureBlobClient(account_name="rgsecurefuncdemo8a18")
 
 app = func.FunctionApp()
 
 @app.route(route="http_example", auth_level=func.AuthLevel.ANONYMOUS)
+@app.function_name(name="HttpExample")
 def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
@@ -28,7 +29,8 @@ def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
              status_code=200
         )
 
-@app.route("read_blob")
+@app.route("read_blob", auth_level=func.AuthLevel.ANONYMOUS)
+@app.function_name(name="ReadBlob")
 def read_blob(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request to read a blob.')
 
@@ -49,7 +51,8 @@ def read_blob(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse(f"Error reading blob: {e}", status_code=500)
     
 
-@app.route("upload_blob")
+@app.route("upload_blob", auth_level=func.AuthLevel.ANONYMOUS)
+@app.function_name(name="UploadBlob")
 def upload_blob(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request to upload a blob.')
 
