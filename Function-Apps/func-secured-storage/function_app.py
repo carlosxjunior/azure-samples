@@ -29,7 +29,7 @@ def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
              status_code=200
         )
 
-@app.route("read_blob", auth_level=func.AuthLevel.ANONYMOUS)
+"""@app.route("read_blob", auth_level=func.AuthLevel.ANONYMOUS)
 @app.function_name(name="ReadBlob")
 def ReadBlob(req: func.HttpRequest) -> func.HttpResponse:
     logging.info("Python HTTP trigger function processed a request to read a blob.")
@@ -48,7 +48,7 @@ def ReadBlob(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse(blob_content, status_code=200)
     except Exception as e:
         logging.error(f"Error reading blob: {e}")
-        return func.HttpResponse(f"Error reading blob: {e}", status_code=500)
+        return func.HttpResponse(f"Error reading blob: {e}", status_code=500)"""
     
 
 """@app.route("upload_blob", auth_level=func.AuthLevel.ANONYMOUS)
