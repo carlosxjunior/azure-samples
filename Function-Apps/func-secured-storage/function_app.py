@@ -10,16 +10,16 @@ app = func.FunctionApp()
 @app.route(route="http_example", auth_level=func.AuthLevel.ANONYMOUS)
 @app.function_name(name="HttpExample")
 def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request.')
+    logging.info("Python HTTP trigger function processed a request.")
 
-    name = req.params.get('name')
+    name = req.params.get("name")
     if not name:
         try:
             req_body = req.get_json()
         except ValueError:
             pass
         else:
-            name = req_body.get('name')
+            name = req_body.get("name")
 
     if name:
         return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
@@ -31,11 +31,11 @@ def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
 
 @app.route("read_blob", auth_level=func.AuthLevel.ANONYMOUS)
 @app.function_name(name="ReadBlob")
-def read_blob(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request to read a blob.')
+def ReadBlob(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info("Python HTTP trigger function processed a request to read a blob.")
 
-    container_name = req.params.get('container_name')
-    blob_name = req.params.get('blob_name')
+    container_name = req.params.get("container_name")
+    blob_name = req.params.get("blob_name")
 
     if not container_name or not blob_name:
         return func.HttpResponse(
@@ -51,14 +51,14 @@ def read_blob(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse(f"Error reading blob: {e}", status_code=500)
     
 
-@app.route("upload_blob", auth_level=func.AuthLevel.ANONYMOUS)
+"""@app.route("upload_blob", auth_level=func.AuthLevel.ANONYMOUS)
 @app.function_name(name="UploadBlob")
-def upload_blob(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request to upload a blob.')
+def UploadBlob(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info("Python HTTP trigger function processed a request to upload a blob.")
 
-    container_name = req.params.get('container_name')
-    blob_name = req.params.get('blob_name')
-    file_name = req.params.get('file_name')
+    container_name = req.params.get("container_name")
+    blob_name = req.params.get("blob_name")
+    file_name = req.params.get("file_name")
     #file = req.files.get(file_name)
     logging.info(f"{container_name}, {blob_name}, {file_name}")
 
@@ -76,4 +76,4 @@ def upload_blob(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse(f"Blob '{blob_name}' uploaded successfully.", status_code=200)
     except Exception as e:
         logging.error(f"Error uploading blob: {e}")
-        return func.HttpResponse(f"Error uploading blob: {e}", status_code=500)
+        return func.HttpResponse(f"Error uploading blob: {e}", status_code=500)"""
