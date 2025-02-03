@@ -52,7 +52,7 @@ def UploadBlob(req: func.HttpRequest) -> func.HttpResponse:
             data = json_file.read()
 
     try:
-        azure_blob_client = AzureBlobClient(connection_string=os.getenv("AzureWebJobsStorage"))
+        azure_blob_client = AzureBlobClient(account_name="adlsfuncdemo001")
         azure_blob_client.upload_blob(container_name, blob_name, data=data.encode("utf-8"))
         return func.HttpResponse(f"Blob '{blob_name}' uploaded successfully.", status_code=200)
     except Exception as e:
