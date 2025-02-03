@@ -31,8 +31,8 @@ def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
 def UploadBlob(req: func.HttpRequest) -> func.HttpResponse:
     logging.info("Python HTTP trigger function processed a request in route 'upload-blob'.")
     req_body = req.get_json()
-    container_name = req_body("container")
-    blob_name = req_body("blob")
+    container_name = req_body.get("container")
+    blob_name = req_body.get("blob")
 
     if not container_name or not blob_name:
         return func.HttpResponse(
