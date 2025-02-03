@@ -7,19 +7,18 @@ from azureBlobClient import AzureBlobClient
 
 app = func.FunctionApp()
 
-@app.route(route="http_example", auth_level=func.AuthLevel.ANONYMOUS)
-@app.function_name(name="HttpExample")
+@app.route(route="http-example", auth_level=func.AuthLevel.FUNCTION)
 def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info("Python HTTP trigger function processed a request.")
+    logging.info('Python HTTP trigger function processed a request.')
 
-    name = req.params.get("name")
+    name = req.params.get('name')
     if not name:
         try:
             req_body = req.get_json()
         except ValueError:
             pass
         else:
-            name = req_body.get("name")
+            name = req_body.get('name')
 
     if name:
         return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
