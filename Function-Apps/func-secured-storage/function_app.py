@@ -8,7 +8,7 @@ app = func.FunctionApp()
 
 @app.route(route="http-example", auth_level=func.AuthLevel.FUNCTION)
 def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info("Python HTTP trigger function processed a request in route 'http-example'.")
+    logging.info("[HttpExample] Python HTTP trigger function processed a request in route 'http-example'.")
 
     name = req.params.get("name")
     if not name:
@@ -52,7 +52,7 @@ def UploadBlob(req: func.HttpRequest) -> func.HttpResponse:
             data = json_file.read()
 
     try:
-        azure_blob_client = AzureBlobClient(account_name="adlsfuncdemo001")
+        azure_blob_client = AzureBlobClient(account_name=os.getenv("AzureWebJobsStorage__accountName"))
         azure_blob_client.upload_blob(container_name, blob_name, data=data.encode("utf-8"))
         return func.HttpResponse(f"Blob '{blob_name}' uploaded successfully.", status_code=200)
     except Exception as e:
@@ -81,7 +81,7 @@ def ReadBlob(req: func.HttpRequest) -> func.HttpResponse:
         )
     
     try:
-        azure_blob_client = AzureBlobClient(account_name="adlsfuncdemo001")
+        azure_blob_client = AzureBlobClient(account_name=os.getenv("AzureWebJobsStorage__accountName"))
         blob_content = azure_blob_client.read_blob(container_name, blob_name)
         return func.HttpResponse(blob_content, status_code=200)
     except Exception as e:
