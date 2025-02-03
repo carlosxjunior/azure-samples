@@ -25,7 +25,7 @@ class AzureBlobClient:
                 logging.info("[Azure Blob Integration]: Using connection string for authentication.")
                 return BlobServiceClient.from_connection_string(connection_string)
             except Exception as e:
-                logging.error(f"[Azure Blob Integration]: Error creating BlobServiceClient: {e}.")
+                logging.error(f"[Azure Blob Integration]: Error creating BlobServiceClient: {e}")
                 raise
         elif account_name:
             try:
@@ -34,7 +34,7 @@ class AzureBlobClient:
                 account_url = f"https://{account_name}.blob.core.windows.net"
                 return BlobServiceClient(account_url=account_url, credential=credential)
             except Exception as e:
-                logging.error(f"[Azure Blob Integration]: Error creating BlobServiceClient: {e}.")
+                logging.error(f"[Azure Blob Integration]: Error creating BlobServiceClient: {e}")
                 raise
         else:
             logging.error("[Azure Blob Integration]: Either a connection string or an account URL must be provided.")
@@ -59,7 +59,7 @@ class AzureBlobClient:
             return blobs
 
         except Exception as e:
-            logging.error(f"[Azure Blob Integration]: Error in function list_blobs: {e}.")
+            logging.error(f"[Azure Blob Integration]: Error in function list_blobs: {e}")
             raise
 
     def read_blob(self, container_name: str, blob_name: str) -> str:
@@ -82,7 +82,7 @@ class AzureBlobClient:
             logging.info(f"[Azure Blob Integration]: Successfully read blob: {blob_name}.")
             return blob_content
         except Exception as e:
-            logging.error(f"[Azure Blob Integration]: Error trying to read blob {blob_name} from container {container_name}: {e}.")
+            logging.error(f"[Azure Blob Integration]: Error trying to read blob {blob_name} from container {container_name}: {e}")
             raise
 
     def upload_blob_from_data(self, container_name: str, blob_name: str, data: bytes, overwrite: bool=True) -> None:
@@ -137,7 +137,7 @@ class AzureBlobClient:
             logging.error(f"[Azure Blob Integration]: The file '{filename}' was not found at path '{filepath}'.")
             raise
         except Exception as e:
-            logging.error(f"[Azure Blob Integration]: Error uploading file '{filename}' to blob '{blob_name}': {e}.")
+            logging.error(f"[Azure Blob Integration]: Error uploading file '{filename}' to blob '{blob_name}': {e}")
             raise
 
     def upload_blob(self, container_name: str, blob_name: str, data: bytes=None, filepath: str=None, filename: str=None, overwrite: bool=True) -> None:
