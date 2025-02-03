@@ -81,7 +81,7 @@ def ReadBlob(req: func.HttpRequest) -> func.HttpResponse:
         )
     
     try:
-        azure_blob_client = AzureBlobClient(connection_string=os.getenv("AzureWebJobsStorage"))
+        azure_blob_client = AzureBlobClient(account_name="adlsfuncdemo001")
         blob_content = azure_blob_client.read_blob(container_name, blob_name)
         return func.HttpResponse(blob_content, status_code=200)
     except Exception as e:
