@@ -29,8 +29,16 @@ def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
     
 @app.route(route="upload-blob", auth_level=func.AuthLevel.FUNCTION)
 def UploadBlob(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info("Python HTTP trigger function processed a request in route 'upload-blob'.")
-    req_body = req.get_json()
+    logging.info("[UploadBlob] Python HTTP trigger function processed a request in route 'upload-blob'.")
+    try:
+        req_body = req.get_json()
+    except ValueError:
+        logging.error("[UploadBlob] Missing JSON body in request.")
+        return func.HttpResponse(
+            "Please pass a JSON request body with the parameters 'container' and 'blob'.",
+            status_code=400
+        )
+    
     container_name = req_body.get("container")
     blob_name = req_body.get("blob")
 
@@ -44,9 +52,38 @@ def UploadBlob(req: func.HttpRequest) -> func.HttpResponse:
             data = json_file.read()
 
     try:
-        azure_blob_client = AzureBlobClient(connection_string=os.getenv("AzureWebJobsStorage"))
+        azure_blob_client = AzureBlobClient(connection_string="AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;")
         azure_blob_client.upload_blob(container_name, blob_name, data=data.encode("utf-8"))
         return func.HttpResponse(f"Blob '{blob_name}' uploaded successfully.", status_code=200)
     except Exception as e:
-        logging.error(f"Error uploading blob: {e}")
+        logging.error(f"[UploadBlob] Error uploading blob: {e}")
         return func.HttpResponse(f"Error uploading blob: {e}", status_code=500)
+    
+@app.route(route="read-blob", auth_level=func.AuthLevel.FUNCTION)
+def ReadBlob(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info("[ReadBlob] Python HTTP trigger function processed a request in route 'read-blob'.")
+    try:
+        req_body = req.get_json()
+    except ValueError:
+        logging.error("[ReadBlob] Missing JSON body in request.")
+        return func.HttpResponse(
+            "Please pass a JSON request body with the parameters 'container' and 'blob'.",
+            status_code=400
+        )
+    
+    container_name = req_body.get("container")
+    blob_name = req_body.get("blob")
+
+    if not container_name or not blob_name:
+        return func.HttpResponse(
+            "Please specify the parameters 'container' and 'blob' in the request body.",
+            status_code=400
+        )
+    
+    try:
+        azure_blob_client = AzureBlobClient(connection_string="AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;")
+        blob_content = azure_blob_client.read_blob(container_name, blob_name)
+        return func.HttpResponse(blob_content, status_code=200)
+    except Exception as e:
+        logging.error(f"Error reading blob: {e}")
+        return func.HttpResponse(f"Error reading blob: {e}", status_code=500)
