@@ -1,0 +1,60 @@
+parameters:
+- name: pythonVersion
+  type: string
+  default: '3.x'
+- name: artifactName
+  type: string
+  default: 'python-app-artifact'
+- name: environmentName
+  type: string
+- name: projectDirectory
+  type: string
+
+
+jobs:
+- deployment: VMDeploy
+  displayName: Deploy to VM
+  environment:
+    name: ${{ parameters.environmentName }}
+    resourceType: VirtualMachine
+  strategy:
+    runOnce:
+      # Pre deployment steps
+      preDeploy:
+        steps:
+        - download: current
+          artifact: ${{ parameters.artifactName }}
+          displayName: 'Download artifact'
+      # Deployment steps
+      deploy:
+        steps:
+        - task: Bash@3
+          inputs:
+            targetType: 'inline'
+            script: |
+                echo "Starting deployment script run."
+                if [ ! -d "${{ parameters.projectDirectory }}" ]; then
+                echo "Creating project directory."
+                mkdir -p ${{ parameters.projectDirectory }}
+                fi
+                echo "Removing existing files from project directory."
+                sudo rm -rf ${{ parameters.projectDirectory }}/*
+                sudo apt install unzip
+                echo "Unzipping the artifact to project directory."
+                unzip $(Pipeline.Workspace)/${{ parameters.artifactName }}/$(Build.BuildId)-${{ parameters.pythonVersion }}.zip -d ${{ parameters.projectDirectory }}
+                echo "Creating virtual environment and installing dependencies."
+                cd ${{ parameters.projectDirectory }}
+                pwd
+                sudo apt-get update
+                sudo apt-get install -y python3-venv
+                python3 -m venv myenv
+                source myenv/bin/activate
+                pip install -r requirements.txt
+                echo "Finishing deployment stage."
+      on:
+        failure:
+          steps:
+          - script: echo Restore from backup! This is on failure
+        success:
+          steps:
+          - script: echo Notify! This is on success

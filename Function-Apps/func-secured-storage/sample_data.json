@@ -1,0 +1,24 @@
+{
+    "people": [
+        {
+            "name": "John Doe",
+            "sex": "Male",
+            "age": 30
+        },
+        {
+            "name": "Jane Smith",
+            "sex": "Female",
+            "age": 25
+        },
+        {
+            "name": "Alice Johnson",
+            "sex": "Female",
+            "age": 28
+        },
+        {
+            "name": "Bob Brown",
+            "sex": "Male",
+            "age": 35
+        }
+    ]
+}

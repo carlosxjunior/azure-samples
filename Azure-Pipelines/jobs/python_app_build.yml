@@ -1,0 +1,59 @@
+parameters:
+- name: pythonVersion
+  type: string
+  default: '3.x'
+- name: artifactName
+  type: string
+  default: 'python-app-artifact'
+- name: projectDirectory
+  type: string
+
+jobs:
+  - job: Build
+    displayName: "Build Python App"
+    steps:
+      
+      - task: UsePythonVersion@0
+        displayName: "Set Python version to ${{ parameters.pythonVersion }}"
+        inputs:
+          versionSpec: '${{ parameters.pythonVersion }}'
+        enabled: true # disable this task as the agent already has python installed
+
+      - bash: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+        displayName: "Install pip using package manager"
+
+      - bash: |
+          sudo apt-get update
+          sudo apt-get install -y zip
+        displayName: "Install zip utility"
+
+      - script: |
+          sudo apt-get install -y python3-venv
+          cd ${{ parameters.projectDirectory }}
+          pwd
+          python3 -m venv myenv
+          source myenv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          deactivate
+          rm -rf myenv
+        displayName: 'Set up Python virtual environment with dependencies'
+
+      - task: ArchiveFiles@2
+        displayName: 'Archive files'
+        inputs:
+          rootFolderOrFile: $(System.DefaultWorkingDirectory)/${{ parameters.projectDirectory }}
+          includeRootFolder: false
+          archiveType: zip
+          archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-${{ parameters.pythonVersion }}.zip
+          replaceExistingArchive: true
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: ${{ parameters.artifactName }}
+          publishLocation: 'Container'
+
+      
