@@ -1,2 +1,4 @@
 Explain here that this function was created to test the deployment of a function using a container image.
 In this specific case, running pyrfc only works after the SAP NetWeaver RFC SDK is installed and configured in the host. With a container image, it has been proved that it is possible to do this setup and then run pyrfc successfully.
+
+![alt text](image0.png)
