@@ -33,9 +33,3 @@ COPY requirements.txt /
 RUN pip install -r /requirements.txt
 
 COPY . /home/site/wwwroot
-
-# Configure the DNS resolver by writing to /etc/resolv.conf
-RUN echo "search one.ofc.loc reddog.microsoft.com\n\
-nameserver 10.220.5.128\n\
-nameserver 172.18.90.18\n\
-nameserver 172.18.44.130" > /etc/resolv.conf
