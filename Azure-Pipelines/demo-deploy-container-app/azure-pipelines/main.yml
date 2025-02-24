@@ -46,9 +46,9 @@ stages:
         tags: |
           $(tag)
 
-    - task: AzureWebAppContainer@1
+    - task: AzureFunctionAppContainer@1
       displayName: 'Azure Web App on Container Deploy'
       inputs:
         azureSubscription: $(azureSubscription)
         appName: $(appName)
-        containers: $(containerRegistry)/$(imageRepository):$(tag)
+        imageName: $(containerRegistry)/$(imageRepository):$(tag)
