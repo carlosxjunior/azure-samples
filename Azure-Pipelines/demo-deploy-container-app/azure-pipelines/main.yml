@@ -22,6 +22,8 @@ variables:
   dockerRegistryServiceConnection: '7e56544d-d730-49bf-8158-24efd406a5b6'
   imageRepository: 'azurefunctionsimage'
   containerRegistry: 'acrdemo003.azurecr.io'
+  azureSubscription: 'AzureSubscriptionServiceConnection'
+  appName: 'func-container-demo-001'
   dockerfilePath: '$(Build.SourcesDirectory)/Azure-Pipelines/demo-deploy-container-app/src/Dockerfile'
   tag: '$(Build.BuildId)'
 
@@ -43,3 +45,10 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+
+    - task: AzureWebAppContainer@1
+      displayName: 'Azure Web App on Container Deploy'
+      inputs:
+        azureSubscription: $(azureSubscription)
+        appName: $(appName)
+        containers: $(containerRegistry)/$(imageRepository):$(tag)
