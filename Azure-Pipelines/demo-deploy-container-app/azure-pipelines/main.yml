@@ -23,7 +23,7 @@ variables:
   imageRepository: 'azurefunctionsimage'
   containerRegistry: 'acrdemo003.azurecr.io'
   azureSubscription: 'AzureSubscriptionServiceConnection'
-  appName: 'func-container-demo-001'
+  appName: 'func-container-demo-003'
   dockerfilePath: '$(Build.SourcesDirectory)/Azure-Pipelines/demo-deploy-container-app/src/Dockerfile'
   tag: '$(Build.BuildId)'
 
