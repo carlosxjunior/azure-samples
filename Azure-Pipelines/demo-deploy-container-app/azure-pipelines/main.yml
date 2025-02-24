@@ -22,7 +22,7 @@ variables:
   dockerRegistryServiceConnection: '7e56544d-d730-49bf-8158-24efd406a5b6'
   imageRepository: 'azurefunctionsimage'
   containerRegistry: 'acrdemo003.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Azure-Pipelines/demo-deploy-container-app/Dockerfile'
+  dockerfilePath: '$(Build.SourcesDirectory)/Azure-Pipelines/demo-deploy-container-app/src/Dockerfile'
   tag: '$(Build.BuildId)'
 
 stages:
