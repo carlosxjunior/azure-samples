@@ -1,1 +1,48 @@
-# placeholder
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+# Disable PR triggers (default is it will be triggered whenever a PR is created)
+pr: none
+
+trigger:
+  branches:
+    include:
+    - develop
+    - main
+  paths:
+    include:
+    - "Azure-Pipelines/demo-deploy-container-app/src/"
+
+resources:
+- repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '7e56544d-d730-49bf-8158-24efd406a5b6'
+  imageRepository: 'azurefunctionsimage'
+  containerRegistry: 'acrdemo003.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/Azure-Pipelines/demo-deploy-container-app/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-sh-agent-pool' # Self-hosted
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
