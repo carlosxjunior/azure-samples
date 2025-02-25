@@ -15,11 +15,11 @@ trigger:
       - "Azure-Pipelines/demo-deploy-container-app/src/"
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: ubuntu-sh-agent-pool # Self-hosted
 
 stages:
-  - stage: Build
-    displayName: Build and Push Stage
+  - stage: Build and Push
+    displayName: Build and Push
     jobs:
       - template: ../../../Azure-Pipelines/jobs/function_app_container_build.yml
         parameters:
@@ -29,7 +29,7 @@ stages:
           tag: '$(Build.BuildId)'
 
   - stage: Deploy
-    displayName: Deploy Stage
+    displayName: Deploy
     jobs:
       - template: ../../../Azure-Pipelines/jobs/function_app_container_deploy.yml
         parameters:
