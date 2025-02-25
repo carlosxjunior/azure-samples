@@ -15,7 +15,7 @@ trigger:
       - "Azure-Pipelines/demo-deploy-container-app/src/"
 
 pool:
-  name: ubuntu-sh-agent-pool # Self-hosted
+  name: ubuntu-agent-pool # Self-hosted
 
 stages:
   - stage: Build
