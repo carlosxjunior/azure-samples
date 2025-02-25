@@ -11,6 +11,13 @@ parameters:
 - name: tag
   type: string
   default: '$(Build.BuildId)'
+- name: deployToSlotOrASE
+  type: boolean
+  default: false
+- name: resourceGroupName
+  type: string
+- name: slotName
+  type: string
 
 jobs:
   - job: Deploy
