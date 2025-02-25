@@ -18,7 +18,7 @@ pool:
   name: ubuntu-sh-agent-pool # Self-hosted
 
 stages:
-  - stage: Build and Push
+  - stage: Build
     displayName: "Build and Push"
     jobs:
       - template: ../../../Azure-Pipelines/jobs/function_app_container_build.yml
