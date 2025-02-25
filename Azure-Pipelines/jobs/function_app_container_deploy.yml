@@ -1,0 +1,30 @@
+parameters:
+- name: azureSubscription
+  type: string
+- name: appName
+  type: string
+- name: containerRegistry
+  type: String
+- name: imageRepository
+  type: string
+  default: 'azurefunctionsimage'
+- name: tag
+  type: string
+  default: '$(Build.BuildId)'
+
+jobs:
+  - job: Deploy
+    displayName: "Deploy containerized Function App"
+    steps:
+      - task: AzureFunctionAppContainer@1
+        displayName: "Deploy to Function App"
+        inputs:
+          azureSubscription: ${{ parameters.azureSubscription }}
+          appName: ${{ parameters.appName }}
+          imageName: ${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}:${{ parameters.tag }}
+          deployToSlotOrASE: ${{ parameters.deployToSlotOrASE }}
+
+          # Only include slotName and resourceGroupName if deployToSlotOrASE is true
+          ${{ if eq(parameters.deployToSlotOrASE, 'true') }}:
+            slotName: ${{ parameters.slotName }}
+            resourceGroupName: ${{ parameters.resourceGroupName }}
