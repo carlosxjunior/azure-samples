@@ -4,7 +4,7 @@ parameters:
 - name: appName
   type: string
 - name: containerRegistry
-  type: String
+  type: string
 - name: imageRepository
   type: string
   default: 'azurefunctionsimage'
