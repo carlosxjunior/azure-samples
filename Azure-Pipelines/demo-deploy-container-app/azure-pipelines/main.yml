@@ -21,7 +21,7 @@ stages:
   - stage: Build
     displayName: Build and Push Stage
     jobs:
-      - template: function_app_container_build.yml
+      - template: ../../function_app_container_build.yml
         parameters:
           dockerRegistryServiceConnection: 7e56544d-d730-49bf-8158-24efd406a5b6
           imageRepository: azurefunctionsimage
@@ -31,7 +31,7 @@ stages:
   - stage: Deploy
     displayName: Deploy Stage
     jobs:
-      - template: function_app_container_deploy.yml
+      - template: ../../function_app_container_deploy.yml
         parameters:
           azureSubscription: 'azureServiceConnection'
           appName: func-container-demo-003
