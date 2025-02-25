@@ -23,7 +23,7 @@ stages:
     jobs:
       - template: ../../../Azure-Pipelines/jobs/function_app_container_build.yml
         parameters:
-          dockerRegistryServiceConnection: 7e56544d-d730-49bf-8158-24efd406a5b6
+          dockerRegistryServiceConnection: f176961d-a0bc-42b6-a0b9-7917952cc5fd
           imageRepository: azurefunctionsimage
           DockerfilePath: '$(Build.SourcesDirectory)/Azure-Pipelines/demo-deploy-container-app/src/Dockerfile'
           tag: '$(Build.BuildId)'
@@ -33,8 +33,9 @@ stages:
     jobs:
       - template: ../../../Azure-Pipelines/jobs/function_app_container_deploy.yml
         parameters:
-          azureSubscription: 'AzureSubscriptionServiceConnection'
+          azureSubscription: f7a96338-f563-4f97-9510-1bb09603cc4f
           appName: func-container-demo-003
+          # appSettings: '-DOCKER_REGISTRY_SERVER_URL $(registry_url) -DOCKER_REGISTRY_SERVER_USERNAME $(registry_username) -DOCKER_REGISTRY_SERVER_PASSWORD $(registry_password)'
           containerRegistry: acrdemo003.azurecr.io
           imageRepository: azurefunctionsimage
           tag: '$(Build.BuildId)'

@@ -20,6 +20,9 @@ parameters:
 - name: slotName
   type: string
   default: 'production'
+- name: appSettings
+  type: string
+  default: ''
 
 jobs:
   - job: Deploy
@@ -30,6 +33,7 @@ jobs:
         inputs:
           azureSubscription: ${{ parameters.azureSubscription }}
           appName: ${{ parameters.appName }}
+          appSettings: ${{ parameters.appSettings }}
           imageName: ${{ parameters.containerRegistry }}/${{ parameters.imageRepository }}:${{ parameters.tag }}
           deployToSlotOrASE: ${{ parameters.deployToSlotOrASE }}
 
