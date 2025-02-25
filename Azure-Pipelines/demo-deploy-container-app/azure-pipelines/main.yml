@@ -33,11 +33,7 @@ stages:
     jobs:
       - template: ../../../Azure-Pipelines/jobs/function_app_container_deploy.yml
         parameters:
-<<<<<<< HEAD
-          azureSubscription: f7a96338-f563-4f97-9510-1bb09603cc4f
-=======
-          azureSubscription: rg_funccontainer_demo_connection
->>>>>>> 3de4bc9b028c524c7a559cc32752a98a8d018309
+          azureSubscription: AzureSubscriptionServiceConnection
           appName: func-container-demo-003
           # appSettings: '-DOCKER_REGISTRY_SERVER_URL $(registry_url) -DOCKER_REGISTRY_SERVER_USERNAME $(registry_username) -DOCKER_REGISTRY_SERVER_PASSWORD $(registry_password)'
           containerRegistry: acrdemo003.azurecr.io
