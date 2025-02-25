@@ -33,7 +33,7 @@ stages:
     jobs:
       - template: ../../../Azure-Pipelines/jobs/function_app_container_deploy.yml
         parameters:
-          azureSubscription: 'azureServiceConnection'
+          azureSubscription: 'AzureSubscriptionServiceConnection'
           appName: func-container-demo-003
           containerRegistry: acrdemo003.azurecr.io
           imageRepository: azurefunctionsimage
