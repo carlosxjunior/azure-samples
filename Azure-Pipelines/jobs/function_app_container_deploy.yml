@@ -16,8 +16,10 @@ parameters:
   default: false
 - name: resourceGroupName
   type: string
+  default: ''
 - name: slotName
   type: string
+  default: 'production'
 
 jobs:
   - job: Deploy
