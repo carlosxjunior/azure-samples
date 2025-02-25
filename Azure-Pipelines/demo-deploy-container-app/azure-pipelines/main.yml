@@ -19,7 +19,7 @@ pool:
 
 stages:
   - stage: Build and Push
-    displayName: Build and Push
+    displayName: "Build and Push"
     jobs:
       - template: ../../../Azure-Pipelines/jobs/function_app_container_build.yml
         parameters:
@@ -29,7 +29,7 @@ stages:
           tag: '$(Build.BuildId)'
 
   - stage: Deploy
-    displayName: Deploy
+    displayName: "Deploy"
     jobs:
       - template: ../../../Azure-Pipelines/jobs/function_app_container_deploy.yml
         parameters:
